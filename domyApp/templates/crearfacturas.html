@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>Nueva Factura</h1>
+<form method="post">
+    <label for="fecha">Fecha y Hora de Emisión</label>
+    <input type="date" id="fecha" name="fecha" value="" required>
+
+    <label for="venta_id">ID de la Venta:</label>
+    <input type="text" id="venta_id" name="venta_id" value="" required>
+
+    <label for="cliente_id">ID del Cliente:</label>
+    <input type="text" id="cliente_id" name="cliente_id" value="" required>
+
+    <label for="total_venta">Total de la Venta:</label>
+    <input step="any" type="number" id="total_venta" name="total_venta" value="" required>
+
+    <label for="estado">Estado</label>
+    <select id="estado" name="estado">
+        <option value="Pagado">Pagado</option>
+        <option value="En Proceso">En Proceso</option>
+    </select>
+
+    <button type="submit">Nueva Factura</button>
+</form>
+{% endblock %}

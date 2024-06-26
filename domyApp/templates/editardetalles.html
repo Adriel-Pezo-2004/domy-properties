@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>Editar Detalles</h1>
+<form method="post">
+    <label for="venta_id">ID de la Venta:</label>
+    <input type="text" id="venta_id" name="venta_id" value="{{detail[1]}}" required>
+    <label for="product_id">Descripción:</label>
+    <textarea id="product_id" name="product_id">{{ detail[2] }}</textarea>
+    <label for="cantidad">Cantidad</label>
+    <input type="number" id="cantidad" name="cantidad" value="{{detail[3]}}" required>
+    <label for="precio_unitario">Precio Unitario:</label>
+    <input step="any" type="number" id="precio_unitario" name="precio_unitario" value="{{detail[4]}}" required>
+    <button type="submit">Guardar Cambios</button>
+</form>
+{% endblock %}

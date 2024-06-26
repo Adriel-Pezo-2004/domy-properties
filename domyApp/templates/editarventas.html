@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>Nueva Venta</h1>
+<form method="post">
+    <label for="fecha">Fecha y Hora</label>
+    <input type="datetime-local" id="fecha" name="fecha" value="{{venta[1]}}" required>
+
+    <label for="cliente_id">ID del Cliente:</label>
+    <input type="text" id="cliente_id" name="cliente_id" value="{{venta[2]}}" required>
+
+    <label for="total_venta">Total de la Venta:</label>
+    <input step="any" type="number" id="total_venta" name="total_venta" value="{{venta[3]}}" required>
+
+    <label for="metodo_pago">Método de Pago:</label>
+    <select id="metodo_pago" name="metodo_pago">
+        <option value="Pago en Efectivo">Pago en Efectivo</option>
+        <option value="Pago con Tarjeta">Pago con Tarjeta</option>
+        <option value="Pago por Yape">Pago por Yape</option>
+    </select>
+
+    <label for="estado">Estado</label>
+    <select id="estado" name="estado">
+        <option value="Procesando">Procesando</option>
+        <option value="Completada">Completada</option>
+    </select>
+
+    <button type="submit">Editar Venta</button>
+</form>
+{% endblock %}

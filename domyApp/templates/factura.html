@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1 class="m-3">Facturas</h1>
+<div class="col-md-12">
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th class="col-md-1">Número</th>
+            <th class="col-md-2">Fecha Emisión</th>
+            <th class="col-md-2">Venta</th>
+            <th class="col-md-1">Cliente</th>
+            <th class="col-md-1">Total</th>
+            <th class="col-md-1">Estado</th>
+            <th class="col-md-1">Editar</th>
+            <th class="col-md-1">Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for factura in facturas %}
+        <tr>
+            <td>{{ factura[0] }}</td>
+            <td>{{ factura[1] }}</td>
+            <td>{{ factura[2] }}</td>
+            <td>{{ factura[3] }}</td>
+            <td>{{ factura[4] }}</td>
+            <td>{{ factura[5] }}</td>
+            <td><a href="{{ url_for('editarfacturas', id=factura[0]) }}">Editar</a></td>
+            <td>
+                <form action="{{ url_for('eliminar_facturas', id=factura[0]) }}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este cliente?')">
+                    <button class="btn btn-danger" type="submit">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<form action="{{ url_for('crearfacturas') }}">
+    <button class="btn btn-success m-3" type="submit">Crear</button>
+</form>
+{% endblock %}

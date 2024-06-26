@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1 class="m-3">Productos</h1>
+<div class="col-md-12">
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th class="col-md-1">ID</th>
+            <th class="col-md-1">Nombre</th>
+            <th class="col-md-1">Descripción</th>
+            <th class="col-md-1">Precio Unitario</th>
+            <th class="col-md-1">Stock</th>
+            <th class="col-md-1">Proveedor</th>
+            <th class="col-md-1">Fecha Entrada</th>
+            <th class="col-md-1">Categoría</th>
+            <th class="col-md-1">Editar</th>
+            <th class="col-md-1">Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in productos %}
+        <tr>
+                <td>{{ producto[0] }}</td>
+                <td>{{ producto[1] }}</td>
+                <td>{{ producto[2] }}</td>
+                <td>{{ producto[3] }}</td>
+                <td>{{ producto[4] }}</td>
+                <td>{{ producto[5] }}</td>
+                <td>{{ producto[6] }}</td>
+                <td>{{ producto[7] }}</td>
+                <td><a href="{{ url_for('editarproductos', id=producto[0]) }}">Editar</a></td>
+                <td>
+                <form action="{{ url_for('eliminar_producto', id=producto[0]) }}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este producto?')">
+                    <button class="btn btn-danger" type="submit">Eliminar</button>
+                </form>
+                </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+</table>
+</div>
+<form action="{{ url_for('crearproductos') }}">
+    <button class="btn btn-success m-3" type="submit">Crear</button>
+</form>
+{% endblock %}

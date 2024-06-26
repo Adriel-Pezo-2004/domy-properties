@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>Nuevo Producto</h1>
+<form method="post">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="" required>
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" name="descripcion"></textarea>
+    <label for="precio">Precio Unitario:</label>
+    <input step="any" type="number" id="precio" name="precio" value="" required>
+    <label for="stock">Cantidad en Stock:</label>
+    <input type="number" id="stock" name="stock" value="" required>
+    <label for="proveedor">Proveedor:</label>
+    <input type="text" id="proveedor" name="proveedor" value="">
+    <label for="fecha_entrada">Fecha de Entrada a Stock:</label>
+    <input type="date" id="fecha_entrada" name="fecha_entrada" value="">
+    <label for="categoria">Categoría:</label>
+    <input type="text" id="categoria" name="categoria" value="">
+    <button type="submit">Crear Producto</button>
+</form>
+{% endblock %}

@@ -1,0 +1,68 @@
+i {
+  font-size: 3rem;
+  margin: 0;
+}
+
+body {
+  background-image: url("../assets/fondo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  margin-top: 1rem;
+}
+
+.logo {
+  width: 8rem;
+  height: 8rem;
+}
+
+.nave {
+  background-color: #000000;
+  height: 5rem;
+}
+
+.boton {
+  background-color: #CE6B37;
+  color: #FFFFFF;
+  padding: 0.5rem 1rem 0.5rem;
+  width: 2.5rem;
+  border-radius: 0.5rem;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+  width: 95vw;
+  height: 80vh;
+  margin: 1.25vw;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.9490196078);
+  border-radius: 1.563rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 10.5rem;
+}
+
+.grid-item p {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/*# sourceMappingURL=main.css.map */

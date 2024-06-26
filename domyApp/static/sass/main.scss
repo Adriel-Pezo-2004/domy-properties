@@ -1,0 +1,77 @@
+// Variables
+$image-width: 8rem;
+$image-height: 8rem;
+$white: #FFFFFF;
+$white-bg: #fffffff2;
+$black: #000000;
+$dorado: #CE6B37;
+$height-nave: 5rem;
+$small: 2.5rem;
+$normal: 5rem;
+
+i {
+    font-size: 3rem;
+    margin: 0;
+}
+body {
+    background-image: url('../assets/fondo.png');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    width: 100vw; 
+    height: 100vh;
+  }
+
+  main {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin: 0; 
+    margin-top: 1rem;
+  }
+
+// Estilos para la imagen
+.logo {
+  width: $image-width;
+  height: $image-height;
+}
+
+.nave {
+    background-color: $black;
+    height: $height-nave;
+}
+
+.boton {
+    background-color: $dorado;
+    color: $white;
+    padding: 0.5rem 1rem 0.5rem;
+    width:  $small;
+    border-radius: 0.5rem;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1rem; 
+    width: 95vw; 
+    height: 80vh;
+    margin: 1.25vw;
+  }
+  
+  .grid-item {
+    background-color: $white-bg;
+    border-radius: 1.563rem;
+    padding: 0.5rem;
+    display: flex; // Añade flexbox
+    flex-direction: column; // Organiza los elementos en columna
+    justify-content: center; // Centra verticalmente
+    align-items: center; // Centra horizontalmente
+    text-align: center;
+    height: 10.5rem;
+  }
+
+  .grid-item p {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }

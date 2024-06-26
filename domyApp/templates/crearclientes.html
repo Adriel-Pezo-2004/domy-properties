@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+{% block content %}
+<h1>Crear Cliente</h1>
+<form method="post">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="" required>
+
+    <label for="apellido">Apellido:</label>
+    <input type="text" id="apellido" name="apellido" value="" required>
+
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion" name="direccion" value="">
+
+    <label for="ciudad">Ciudad:</label>
+    <input type="text" id="ciudad" name="ciudad" value="">
+
+    <label for="estado">Estado/Provincia:</label>
+    <input type="text" id="estado" name="estado" value="">
+
+    <label for="codigo_postal">Código Postal:</label>
+    <input type="text" id="codigo_postal" name="codigo_postal" value="">
+
+    <label for="pais">País:</label>
+    <input type="text" id="pais" name="pais" value="">
+
+    <label for="telefono">Teléfono:</label>
+    <input type="tel" id="telefono" name="telefono" value="">
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="">
+
+    <label for="fecha_registro">Fecha de Registro:</label>
+    <input type="date" id="fecha_registro" name="fecha_registro" value="">
+
+    <button type="submit">Crear Cliente</button>
+</form>
+{% endblock %}
