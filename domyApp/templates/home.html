@@ -1,11 +1,13 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<div class="grid-container">
-    <div class="grid-item">
-        <i class="fi fi-br-user-add"></i>
-        <p>Crear Contacto</p>
-    </div>
+<div class="grid-container" >
+    <form action="{{ url_for('crearclientes') }}">
+        <div class="grid-item" onclick="redirect1()" type="submit">
+            <i class="fi fi-br-user-add"></i>
+            <p>Crear Contacto</p>
+        </div>
+    </form>
     <div class="grid-item">
         <i class="fi fi-br-address-book"></i>
         <p>Ver Contactos</p>
@@ -39,4 +41,9 @@
         <p>Buscar Propiedades</p>
     </div>
 </div>
+<script>
+     function redirect1() {
+            window.location.href = "{{ url_for('crearclientes') }}";
+        }
+</script>
 {% endblock %}
