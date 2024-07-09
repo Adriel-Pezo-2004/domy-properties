@@ -1,0 +1,60 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="main1">
+    <div id="ext">
+        <button onclick="toggleDiv()">Crear Contacto</button>
+        <div class="collapsible-div" id="collapsibleDiv">
+            <form method="post">
+                <label for="genero">Género:</label>
+                <input type="text" id="genero" name="genero" value="" maxlength="1" required>
+
+                <label for="celular">Celular:</label>
+                <input type="tel" id="celular" name="celular" value="" maxlength="9" required>
+
+                <label for="documento">Documento:</label>
+                <input type="text" id="documento" name="documento" value="" maxlength="22" required>
+
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" value="" required>
+
+                <label for="departamento">Departamento:</label>
+                <input type="text" id="departamento" name="departamento" value="" maxlength="100" required>
+
+                <label for="provincia">Provincia:</label>
+                <input type="text" id="provincia" name="provincia" value="" maxlength="100" required>
+
+                <label for="distrito">Distrito:</label>
+                <input type="text" id="distrito" name="distrito" value="" maxlength="100" required>
+
+                <label for="urbanizacion">Urbanización:</label>
+                <input type="text" id="urbanizacion" name="urbanizacion" value="" maxlength="100">
+
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" value="" maxlength="100">
+                <br>
+                <button id="btn" type="submit">Guardar Contacto</button>
+            </form>
+        </div>
+    </div>
+    <br>
+    <div id="ext">
+        <button onclick="toggleDiv2()"> <i class="fi fi-br-lock"></i>Crear Propiedad</button>
+        <div class="collapsible-div2" id="collapsibleDiv2">
+            
+        </div>
+    </div>
+    <br>
+    <div id="ext">
+        <button onclick="toggleDiv3()"> <i class="fi fi-br-lock"></i>Crear Contrato</button>
+        <div class="collapsible-div3" id="collapsibleDiv3">
+            
+        </div>
+    </div>
+</main>
+<script>
+     function toggleDiv() {
+            var div = document.getElementById('collapsibleDiv');
+            div.classList.toggle('expanded');
+        }
+</script>
+{% endblock %}

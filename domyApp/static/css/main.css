@@ -3,6 +3,14 @@ i {
   margin: 0;
 }
 
+button i {
+  font-size: 1.25rem;
+  padding: 1rem 1.15rem;
+  margin-right: 2.5%;
+  background-color: #FFE8A3;
+  border-radius: 50%;
+}
+
 body {
   background-image: url("../assets/fondo.png");
   background-size: cover;
@@ -133,7 +141,7 @@ main {
   text-align: left;
   padding: 1rem;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   outline: none;
 }
 
