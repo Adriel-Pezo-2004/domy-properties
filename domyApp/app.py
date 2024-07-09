@@ -80,7 +80,7 @@ def crearclientes():
             window.location.href = "/propiedad/crear";  
         </script>
         """
-    return render_template('crearcontactos.html') 
+    return render_template('crearcontactos.html')  
 
 @app.route('/clients/<int:id>/editar', methods=['GET', 'POST'])
 def editarclientes(id):

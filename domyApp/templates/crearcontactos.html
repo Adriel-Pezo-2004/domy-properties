@@ -9,13 +9,22 @@
                 <input type="text" id="departamento" name="departamento" value="" maxlength="100" required>
 
                 <label for="genero">Género:</label>
-                <input type="text" id="genero" name="genero" value="" maxlength="1" required>
+                <select class="form-select form-select-lg" size="1" id="genero" name="genero" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                </select>
 
                 <label for="celular">Celular:</label>
                 <input type="tel" id="celular" name="celular" value="" maxlength="9" required>
 
                 <label for="documento">Documento:</label>
-                <input type="text" id="documento" name="documento" value="" maxlength="22" required>
+                <select class="form-select form-select-lg" size="1" id="genero" name="genero" required>
+                    <option value="" disabled selected>Seleccione tipo de documento</option>
+                    <option value="DNI">DNI</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                    <option value="Carnet de Extranjeria">Pasaporte de Extranjeria</option>
+                </select>
 
                 <label for="correo">Correo:</label>
                 <input type="email" id="correo" name="correo" value="" required>
