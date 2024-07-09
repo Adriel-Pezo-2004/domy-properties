@@ -75,6 +75,15 @@ body {
     border-radius: 0.5rem;
 }
 
+.grid-container2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem; 
+  width: 99vw; 
+  height: 90vh;
+  padding: 2rem;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -96,7 +105,19 @@ body {
     height: 10.5rem;
   }
 
-  .grid-item p {
+  .grid-item2 {
+    background-color: $white-bg;
+    border-radius: 1.563rem;
+    padding: 0.5rem;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    height: 9rem;
+  }
+
+  .grid-item, .grid-item2  p {
     margin: 0;
     font-size: 95%;
     font-weight: 600;
@@ -150,6 +171,23 @@ body {
       }}
   }
 
+  .collapsible-div3 {
+    overflow: hidden;
+    height: 0;
+    transition: height 0.5s ease;
+    width: 90vw; 
+    height: 10vh;
+    height: 0vw;
+    p {
+      padding: 10px;
+    }
+  
+    &.expanded {
+    height: 30vh;
+    padding: 1vw 2.5vw;
+    }
+  }
+
   #ext {
     padding: 5vw;
     background-color: $white-bg;
@@ -181,3 +219,23 @@ body {
     margin-bottom: 1rem;
   }
 
+  .contact-container {
+    background: rgba(255, 255, 255, 0.9);
+    justify-content: center;
+    align-items: center;
+    width: 90vw;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .list-group-item {
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+  }
+  .list-group-item:nth-child(odd) {
+      background: rgba(255, 255, 255, 0.9);
+  }
+  .list-group-item span {
+      display: flex;
+      flex-direction: column;
+  }

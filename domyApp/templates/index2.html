@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domy Properties</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> 
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.4.2/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+</head>
+<body>
+  <div class="body">
+    <nav class="navbar navbar-expand-lg nave">
+      <div class="container-fluid">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Menú
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/">Inicio</a>
+                <a class="dropdown-item" href="/pestaña2">Pestaña 2</a>
+                <a class="dropdown-item" href="/pestaña3">Pestaña 3</a>
+                <a class="dropdown-item" href="/pestaña4">Pestaña 4</a>
+                <a class="dropdown-item" href="/pestaña5">Pestaña 5</a>
+                <a class="dropdown-item" href="/pestaña6">Pestaña 6</a>
+                <a class="dropdown-item" href="/pestaña7">Pestaña 7</a>
+                <a class="dropdown-item" href="/pestaña8">Pestaña 8</a>
+                <a class="dropdown-item" href="/pestaña9">Pestaña 9</a>
+              </div>
+            </li>
+          </ul>
+        <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo Domy" class="logo">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="boton" href="/logout">Cerrar Sesión</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+        
+    {% block content %}{% endblock %}
+
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
