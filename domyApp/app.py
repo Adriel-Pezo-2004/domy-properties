@@ -60,34 +60,24 @@ def contact():
 def crearclientes():
     if request.method == 'POST':
         nombre = request.form['nombre']
-        apellido = request.form['apellido']
+        genero = request.form['genero']
+        celular = request.form['celular']
+        documento = request.form['documento']
+        correo = request.form['correo']
+        departamento = request.form['departamento']
+        provincia = request.form['provincia']
+        distrito = request.form['distrito']
+        urbanizacion = request.form['email']
         direccion = request.form['direccion']
-        ciudad = request.form['ciudad']
-        estado = request.form['estado']
-        codigo_postal = request.form['codigo_postal']
-        pais = request.form['pais']
-        telefono = request.form['telefono']
-        email = request.form['email']
-        fecha_registro = request.form['fecha_registro']
-        try:
-            fecha_registro = datetime.strptime(fecha_registro, '%Y-%m-%d').date()
-        except ValueError:
-            return """
-                <script>
-                    alert("Ingrese una fecha válida");
-                </script>
-            """
-
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
-        insert_query = "INSERT INTO clientes SET Nombre = %s, Apellido = %s, Direccion = %s, Ciudad = %s, Estado = %s,CodigoPostal = %s, Pais = %s, Telefono = %s, Email = %s, FechaRegistro = %s"
-        cursor.execute(insert_query, (nombre, apellido, direccion, ciudad, estado, codigo_postal, pais, telefono, email, fecha_registro))
+        insert_query = "INSERT INTO contactos SET nombre = %s, genero = %s, celular = %s, documento = %s, correo = %s,departamento = %s, provincia = %s, distrito = %s, urbanizacion = %s, FechaRegistro = %s"
+        cursor.execute(insert_query, (nombre, genero, celular, documento, correo, departamento, provincia, distrito, urbanizacion, direccion))
         cnx.commit()
         cnx.close()
         return """ 
         <script>
-            alert("Producto creado exitosamente");
-            window.location.href = "/clients";  
+            window.location.href = "/propiedad/crear";  
         </script>
         """
     return render_template('crearcontactos.html') 
@@ -143,6 +133,58 @@ def eliminar_cliente(id):
     cursor.close()
     cnx.close()
     return redirect(url_for('clients'))
+
+@app.route('/propiedad/crear', methods=['GET', 'POST'])
+def crearpropiedades():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        genero = request.form['genero']
+        celular = request.form['celular']
+        documento = request.form['documento']
+        correo = request.form['correo']
+        departamento = request.form['departamento']
+        provincia = request.form['provincia']
+        distrito = request.form['distrito']
+        urbanizacion = request.form['email']
+        direccion = request.form['direccion']
+        cnx = mysql.connector.connect(**config)
+        cursor = cnx.cursor()
+        insert_query = "INSERT INTO contactos SET nombre = %s, genero = %s, celular = %s, documento = %s, correo = %s,departamento = %s, provincia = %s, distrito = %s, urbanizacion = %s, FechaRegistro = %s"
+        cursor.execute(insert_query, (nombre, genero, celular, documento, correo, departamento, provincia, distrito, urbanizacion, direccion))
+        cnx.commit()
+        cnx.close()
+        return """ 
+        <script>
+            window.location.href = "/contrato/crear";  
+        </script>
+        """
+    return render_template('crearpropiedad.html') 
+
+@app.route('/contrato/crear', methods=['GET', 'POST'])
+def crearcontratos():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        genero = request.form['genero']
+        celular = request.form['celular']
+        documento = request.form['documento']
+        correo = request.form['correo']
+        departamento = request.form['departamento']
+        provincia = request.form['provincia']
+        distrito = request.form['distrito']
+        urbanizacion = request.form['email']
+        direccion = request.form['direccion']
+        cnx = mysql.connector.connect(**config)
+        cursor = cnx.cursor()
+        insert_query = "INSERT INTO contactos SET nombre = %s, genero = %s, celular = %s, documento = %s, correo = %s,departamento = %s, provincia = %s, distrito = %s, urbanizacion = %s, FechaRegistro = %s"
+        cursor.execute(insert_query, (nombre, genero, celular, documento, correo, departamento, provincia, distrito, urbanizacion, direccion))
+        cnx.commit()
+        cnx.close()
+        return """ 
+        <script>
+            window.location.href = "/contrato/crear";  
+        </script>
+        """
+    return render_template('crearcontrato.html') 
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)

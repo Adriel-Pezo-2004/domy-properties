@@ -2,8 +2,12 @@
 {% block content %}
 <div class="main1">
     <div id="ext">
-        <button onclick="toggleDiv()">Crear Contacto</button>
-        <div class="collapsible-div" id="collapsibleDiv">
+        <button onclick="toggleDiv()"><i class="fi fi-br-check" ></i>Crear Contacto</button>
+    </div>
+    <br>
+    <div id="ext">
+        <button onclick="toggleDiv2()">Crear Propiedad</button>
+        <div class="collapsible-div2" id="collapsibleDiv2">
             <form method="post">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="departamento" name="departamento" value="" maxlength="100" required>
@@ -41,13 +45,6 @@
     </div>
     <br>
     <div id="ext">
-        <button onclick="toggleDiv2()"> <i class="fi fi-br-lock"></i>Crear Propiedad</button>
-        <div class="collapsible-div2" id="collapsibleDiv2">
-            
-        </div>
-    </div>
-    <br>
-    <div id="ext">
         <button onclick="toggleDiv3()"> <i class="fi fi-br-lock"></i>Crear Contrato</button>
         <div class="collapsible-div3" id="collapsibleDiv3">
             
@@ -55,8 +52,8 @@
     </div>
 </main>
 <script>
-     function toggleDiv() {
-            var div = document.getElementById('collapsibleDiv');
+     function toggleDiv2() {
+            var div = document.getElementById('collapsibleDiv2');
             div.classList.toggle('expanded');
         }
 </script>
