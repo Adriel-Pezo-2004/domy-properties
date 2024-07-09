@@ -67,11 +67,11 @@ def crearclientes():
         departamento = request.form['departamento']
         provincia = request.form['provincia']
         distrito = request.form['distrito']
-        urbanizacion = request.form['email']
+        urbanizacion = request.form['urbanizacion']
         direccion = request.form['direccion']
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
-        insert_query = "INSERT INTO contactos SET nombre = %s, genero = %s, celular = %s, documento = %s, correo = %s,departamento = %s, provincia = %s, distrito = %s, urbanizacion = %s, FechaRegistro = %s"
+        insert_query = "INSERT INTO contacto SET nombre = %s, genero = %s, celular = %s, documento = %s, correo = %s,departamento = %s, provincia = %s, distrito = %s, urbanizacion = %s, direccion = %s"
         cursor.execute(insert_query, (nombre, genero, celular, documento, correo, departamento, provincia, distrito, urbanizacion, direccion))
         cnx.commit()
         cnx.close()

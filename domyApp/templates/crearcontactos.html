@@ -6,7 +6,7 @@
         <div class="collapsible-div" id="collapsibleDiv">
             <form method="post">
                 <label for="nombre">Nombre:</label>
-                <input type="text" id="departamento" name="departamento" value="" maxlength="100" required>
+                <input type="text" id="nombre" name="nombre" value="" maxlength="100" required>
 
                 <label for="genero">Género:</label>
                 <select class="form-select form-select-lg" size="1" id="genero" name="genero" required>
@@ -19,7 +19,7 @@
                 <input type="tel" id="celular" name="celular" value="" maxlength="9" required>
 
                 <label for="documento">Documento:</label>
-                <select class="form-select form-select-lg" size="1" id="genero" name="genero" required>
+                <select class="form-select form-select-lg" size="1" id="documento" name="documento" required>
                     <option value="" disabled selected>Seleccione tipo de documento</option>
                     <option value="DNI">DNI</option>
                     <option value="Pasaporte">Pasaporte</option>
@@ -30,13 +30,20 @@
                 <input type="email" id="correo" name="correo" value="" required>
 
                 <label for="departamento">Departamento:</label>
-                <input type="text" id="departamento" name="departamento" value="" maxlength="100" required>
-
+                <select id="departamento" name="departamento">
+                    <option value="">Selecciona un departamento</option>
+                    <option value="Arequipa">Arequipa</option>
+                </select>
+                
                 <label for="provincia">Provincia:</label>
-                <input type="text" id="provincia" name="provincia" value="" maxlength="100" required>
-
+                <select id="provincia" name="provincia">
+                    <option value="">Selecciona una provincia</option>
+                </select>
+                
                 <label for="distrito">Distrito:</label>
-                <input type="text" id="distrito" name="distrito" value="" maxlength="100" required>
+                <select id="distrito" name="distrito" disabled>
+                    <option value="">Selecciona un distrito</option>
+                </select>
 
                 <label for="urbanizacion">Urbanización:</label>
                 <input type="text" id="urbanizacion" name="urbanizacion" value="" maxlength="100">
@@ -64,9 +71,56 @@
     </div>
 </main>
 <script>
-     function toggleDiv() {
+    function toggleDiv() {
             var div = document.getElementById('collapsibleDiv');
             div.classList.toggle('expanded');
-        }
+    }
+    const data = {
+            "Arequipa": {
+                "provincias": {
+                    "Arequipa": ["Alto Selva Alegre", "Arequipa", "Cayma", "Cerro Colorado", "Characato", "Chiguata", "Jacobo Hunter", "La Joya", "Mariano Melgar", "Miraflores", "Mollebaya", "Paucarpata", "Pocsi", "Polobaya", "Quequeña", "Sabandia", "Sachaca", "San Juan de Siguas", "San Juan de Tarucani", "Santa Isabel de Siguas", "Santa Rita de Siguas", "Socabaya", "Tiabaya", "Uchumayo", "Vitor", "Yanahuara", "Yarabamba", "Yura"],
+                    "Camana": ["Camaná", "José María Quimper", "Mariano Nicolás Valcárcel", "Mariscal Cáceres", "Nicolás de Piérola", "Ocoña", "Quilca", "Samuel Pastor"],
+                    "Caraveli": ["Acarí", "Atico", "Atiquipa", "Bella Unión", "Cahuacho", "Caravelí", "Chala", "Chaparra", "Huanuhuanu", "Jaqui", "Lomas", "Quicacha", "Yauca"],
+                    "Castilla": ["Andagua", "Aplao", "Ayo", "Chachas", "Chilcaymarca", "Choco", "Huancarqui", "Machaguay", "Orcopampa", "Pampacolca", "Tipan", "Uñón", "Uraca", "Viraco"],
+                    "Caylloma": ["Achoma", "Cabanaconde", "Callalli", "Caylloma", "Chivay", "Coporaque", "Huambo", "Huanca", "Ichupampa", "Lari", "Lluta", "Maca", "Madrigal", "Majes", "San Antonio de Chuca", "Sibayo", "Tapay", "Tisco", "Tuti", "Yanque"],
+                    "Condesuyos": ["Andaray", "Cayarani", "Chichas", "Chuquibamba", "Iray", "Río Grande", "Salamanca", "Yanaquihua"],
+                    "Islay": ["Cocachacra", "Dean Valdivia", "Islay", "Mejia", "Mollendo", "Punta de Bombón"],
+                    "La Union": ["Alca", "Charcana", "Cotahuasi", "Huaynacotas", "Pampamarca", "Puyca", "Quechualla", "Sayla", "Tauria", "Tomepampa", "Toro"]
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinciaSelect = document.getElementById('provincia');
+            const distritoSelect = document.getElementById('distrito');
+
+            // Populate the province select
+            const provincias = Object.keys(data.Arequipa.provincias);
+            provincias.forEach(provincia => {
+                const option = document.createElement('option');
+                option.value = provincia;
+                option.textContent = provincia;
+                provinciaSelect.appendChild(option);
+            });
+
+            provinciaSelect.addEventListener('change', function() {
+                // Clear the district select
+                distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+                
+                if (provinciaSelect.value === "") {
+                    distritoSelect.disabled = true;
+                } else {
+                    // Populate the district select based on the selected province
+                    const distritos = data.Arequipa.provincias[provinciaSelect.value];
+                    distritos.forEach(distrito => {
+                        const option = document.createElement('option');
+                        option.value = distrito;
+                        option.textContent = distrito;
+                        distritoSelect.appendChild(option);
+                    });
+                    distritoSelect.disabled = false;
+                }
+            });
+        });
 </script>
 {% endblock %}
