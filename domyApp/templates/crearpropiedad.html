@@ -13,7 +13,11 @@
                 <input type="text" id="departamento" name="departamento" value="" maxlength="100" required>
 
                 <label for="genero">Género:</label>
-                <input type="text" id="genero" name="genero" value="" maxlength="1" required>
+                <select id="genero" name="genero" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                  </select>
 
                 <label for="celular">Celular:</label>
                 <input type="tel" id="celular" name="celular" value="" maxlength="9" required>

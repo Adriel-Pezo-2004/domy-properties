@@ -3,6 +3,23 @@ i {
   margin: 0;
 }
 
+.fi-br-lock {
+  font-size: 1.25rem;
+  padding: 1rem 1.15rem;
+  margin-right: 2.5%;
+  background-color: #FFE8A3;
+  border-radius: 50%;
+}
+
+.fi-br-check {
+  all: ini;
+  font-size: 1.25rem;
+  padding: 1rem 1.15rem;
+  margin-right: 2.5%;
+  background-color: #AFF4C6;
+  border-radius: 50%;
+}
+
 body {
   background-image: url("../assets/fondo.png");
   background-size: cover;
@@ -84,7 +101,7 @@ main {
   padding: 10px;
 }
 .collapsible-div.expanded, .collapsible-div2.expanded, .collapsible-div3.expanded {
-  height: 50vh;
+  height: 55vh;
   padding: 1vw 2.5vw;
 }
 .collapsible-div form, .collapsible-div2 form, .collapsible-div3 form {
@@ -133,7 +150,7 @@ main {
   text-align: left;
   padding: 1rem;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   outline: none;
 }
 
@@ -143,6 +160,6 @@ main {
   align-items: center;
   margin: auto;
   padding: 1rem;
-  background-color: #53df4e;
+  background-color: #AFF4C6;
   margin-bottom: 1rem;
 }/*# sourceMappingURL=main.css.map */
