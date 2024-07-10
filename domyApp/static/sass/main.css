@@ -62,6 +62,15 @@ main {
   border-radius: 0.5rem;
 }
 
+.grid-container2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
+  width: 99vw;
+  height: 90vh;
+  padding: 2rem;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -83,7 +92,19 @@ main {
   height: 10.5rem;
 }
 
-.grid-item p {
+.grid-item2 {
+  background-color: rgba(255, 255, 255, 0.9490196078);
+  border-radius: 1.563rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 9rem;
+}
+
+.grid-item, .grid-item2 p {
   margin: 0;
   font-size: 95%;
   font-weight: 600;
@@ -159,6 +180,44 @@ main {
   height: 20%;
 }
 
+#ext2 {
+  padding: 5vw;
+  background-color: rgba(255, 255, 255, 0.9490196078);
+  border-radius: 1.563rem;
+  padding: 1vw;
+  display: flex;
+  flex-direction: column;
+  height: 25%;
+}
+#ext2 form {
+  display: grid;
+  grid-template-columns: repeat(2, 12.5% 35%);
+  gap: 1rem;
+}
+#ext2 form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+#ext2 form input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+#ext2 form button {
+  grid-column: 1/-1;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
 #ext button {
   background: none;
   border: none;
@@ -170,6 +229,16 @@ main {
   outline: none;
 }
 
+#ext2 #btn {
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 1rem;
+  background-color: #AFF4C6;
+  margin-bottom: 1rem;
+}
+
 #ext #btn {
   font-size: 1rem;
   justify-content: center;
@@ -178,4 +247,27 @@ main {
   padding: 1rem;
   background-color: #AFF4C6;
   margin-bottom: 1rem;
+}
+
+.contact-container {
+  background: rgba(255, 255, 255, 0.9);
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.list-group-item {
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+}
+
+.list-group-item:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.list-group-item span {
+  display: flex;
+  flex-direction: column;
 }/*# sourceMappingURL=main.css.map */

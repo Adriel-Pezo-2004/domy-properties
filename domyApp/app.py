@@ -65,11 +65,22 @@ def admin_home():
 def contact():
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor()
-    cursor.execute('SELECT * FROM agenda')
-    agendas = cursor.fetchall()
+    cursor.execute('SELECT * FROM contacto')
+    contactos = cursor.fetchall()
     cursor.close()
     cnx.close()
-    return render_template('contactos.html', agendas=agendas)
+    return render_template('contactos.html', contactos=contactos)
+
+@app.route('/propiedad')
+def propiedad():
+    cnx = mysql.connector.connect(**config)
+    cursor = cnx.cursor()
+    cursor.execute('SELECT * FROM propiedades')
+    propiedad = cursor.fetchall()
+    cursor.close()
+    cnx.close()
+    return render_template('propiedades.html', propiedad=propiedad)
+
 
 @app.route('/agenda')
 def agenda():
@@ -121,6 +132,36 @@ def propiedades():
     cursor.close()
     cnx.close()
     return render_template('propiedad.html', propiedades=propiedades)
+
+@app.route('/asesores')
+def asesores():
+    cnx = mysql.connector.connect(**config)
+    cursor = cnx.cursor()
+    cursor.execute('SELECT * FROM usuarios')
+    asesores = cursor.fetchall()
+    cursor.close()
+    cnx.close()
+    return render_template('asesores.html', asesores=asesores)
+
+@app.route('/asesor/crear', methods=['GET', 'POST'])
+def crearasesores():
+    if request.method == 'POST':
+        usuario = request.form['usuario']
+        contraseña = request.form['contraseña']
+        nombres = request.form['nombres']
+        apellidos = request.form['apellidos']
+        cnx = mysql.connector.connect(**config)
+        cursor = cnx.cursor()
+        insert_query = "INSERT INTO usuarios SET usuario = %s, contraseña = %s, nombres = %s, apellidos = %s"
+        cursor.execute(insert_query, (usuario, contraseña, nombres, apellidos))
+        cnx.commit()
+        cnx.close()
+        return """ 
+        <script>
+            window.location.href = "/propiedad/crear";  
+        </script>
+        """
+    return render_template('crearasesores.html') 
 
 @app.route('/contact/crear', methods=['GET', 'POST'])
 def crearclientes():

@@ -1,0 +1,71 @@
+{% extends 'index2.html' %}
+{% block content %}
+<div class="contact-container">
+    <div class="row">
+        <div class="col-md-4">
+            <select id="ordenar" class="form-control">
+                <option value="az">Ordenar de A-Z</option>
+                <option value="za">Ordenar de Z-A</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="buscar" class="form-control" placeholder="Buscar... ">
+        </div>
+        <div class="col-md-4">
+            <i class="fi fi-br-search col-md-5"></i></input>
+        </div>
+    </div>
+    <div class="col-md-12 mt-3">
+        <ul id="lista-contratos" class="list-group">
+            {% for asesor in asesores %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                    {{ asesor[3] }} - {{ asesor[4] }} - {{ asesor[1] }} - {{ asesor[2] }}
+                </span>
+                <span>
+                    <a href="{{ url_for('editarclientes', id=asesor[0]) }}" class="btn btn-primary btn-sm">Editar</a>
+                    <form action="{{ url_for('eliminar_cliente', id=asesor[0]) }}" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este cliente?')">
+                        <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+                    </form>
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script>
+    document.getElementById('buscar').addEventListener('input', function() {
+        let filter = this.value.toLowerCase();
+        let items = document.querySelectorAll('#lista-contratos .list-group-item');
+        
+        items.forEach(function(item) {
+            let text = item.querySelector('span:first-child').textContent.toLowerCase();
+            if (text.includes(filter)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+
+    document.getElementById('ordenar').addEventListener('change', function() {
+        let order = this.value;
+        let list = document.getElementById('lista-contratos');
+        let items = Array.from(list.querySelectorAll('.list-group-item'));
+
+        items.sort(function(a, b) {
+            let textA = a.textContent.toLowerCase();
+            let textB = b.textContent.toLowerCase();
+            if (order === 'az') {
+                return textA < textB ? -1 : textA > textB ? 1 : 0;
+            } else {
+                return textA > textB ? -1 : textA < textB ? 1 : 0;
+            }
+        });
+
+        items.forEach(function(item) {
+            list.appendChild(item);
+        });
+    });
+</script>
+{% endblock %}
