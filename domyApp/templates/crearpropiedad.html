@@ -8,42 +8,47 @@
     <div id="ext">
         <button onclick="toggleDiv2()">Crear Propiedad</button>
         <div class="collapsible-div2" id="collapsibleDiv2">
-            <form method="post">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="departamento" name="departamento" value="" maxlength="100" required>
+            <form method="post" enctype="multipart/form-data">
+                <label for="analisis">Análisis:</label>
+                <textarea type="text" id="analisis" name="analisis" value="" maxlength="100" required></textarea>
 
-                <label for="genero">Género:</label>
-                <select class="form-select" id="genero" name="genero" required>
+                <label for="tipo_pro">Tipo de Propiedad:</label>
+                <select class="form-select" id="tipo_pro" name="tipo_pro" required>
                     <option value="" disabled selected>Seleccione una opción</option>
-                    <option value="M">Masculino</option>
-                    <option value="F">Femenino</option>
+                    <option value="M">Casa</option>
+                    <option value="F">Departamento</option>
+                </select>
+                
+                <label for="subtipo">Subtipo de Propiedad:</label>
+                <select class="form-select" id="subtipo" name="subtipo" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="M">Casas de Playa</option>
+                    <option value="F">Casas Urbanas</option>
+                </select>
+
+                <label for="antiguedad">Antiguedad (Años):</label>
+                <input type="number" id="antiguedad" name="antiguedad" value="" maxlength="2" required>
+
+                <label for="area_terreno">Área del Terreno:</label>
+                <input type="number"   id="area_terreno" name="area_terreno" value="" step="0.01" required>
+
+                <label for="area_construida">Área Construida (opcional):</label>
+                <input type="number"   id="area_construida" name="area_construida" value="" step="0.01" required>
+
+                <label for="tipo_negocio">Tipo de Negocio:</label>
+                <select class="form-select" id="tipo_negocio" name="tipo_negocio" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="Alquiler">Alquiler</option>
+                    <option value="Venta">Venta</option>
+                    <option value="Anticresis">Anticresis</option>
+                    <option value="Traspaso">Traspaso</option>
                   </select>
 
-                <label for="celular">Celular:</label>
-                <input type="tel" id="celular" name="celular" value="" maxlength="9" required>
+                <label for="imagen">Imagen:</label>
+                <input type="file" id="imagen" name="imagen" accept="image/*">
 
-                <label for="documento">Documento:</label>
-                <input type="text" id="documento" name="documento" value="" maxlength="22" required>
-
-                <label for="correo">Correo:</label>
-                <input type="email" id="correo" name="correo" value="" required>
-
-                <label for="departamento">Departamento:</label>
-                <input type="text" id="departamento" name="departamento" value="" maxlength="100" required>
-
-                <label for="provincia">Provincia:</label>
-                <input type="text" id="provincia" name="provincia" value="" maxlength="100" required>
-
-                <label for="distrito">Distrito:</label>
-                <input type="text" id="distrito" name="distrito" value="" maxlength="100" required>
-
-                <label for="urbanizacion">Urbanización:</label>
-                <input type="text" id="urbanizacion" name="urbanizacion" value="" maxlength="100">
-
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" name="direccion" value="" maxlength="100">
                 <br>
-                <button id="btn" type="submit">Guardar Contacto</button>
+                <button id="btn" type="submit">Guardar Propiedad</button>
             </form>
         </div>
     </div>

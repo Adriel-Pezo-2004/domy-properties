@@ -1,4 +1,58 @@
 {% extends 'index2.html' %}
 {% block content %}
+    <style>
+        .propiedad-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+        }
+        .propiedad-image {
+            max-width: 150px;
+            max-height: 100px;
+            margin-right: 20px;
+        }
+        .propiedad-info {
+            flex: 1;
+        }
+        .propiedad-buttons {
+            display: flex;
+            align-items: center;
+        }
+        .propiedad-buttons button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .editar-button {
+            background-color: #00ff00;
+        }
+        .eliminar-button {
+            background-color: #ff0000;
+        }
+    </style>
 
+    {% for propiedad in propiedad %}
+        <div class="propiedad-container">
+            <div class="propiedad-info">
+                <h2>{{ propiedad.analisis }}</h2>
+                <p>{{ propiedad.tipo_pro }}</p>
+                {% if propiedad.imagen %}
+                    <img class="propiedad-image" src="data:image/jpeg;base64,{{ propiedad.imagen }}" alt="Imagen de propiedad">
+                {% else %}
+                    <p>No hay imagen disponible</p>
+                {% endif %}
+            </div>
+            <div class="propiedad-buttons">
+                <button class="editar-button">Editar</button>
+                <button class="eliminar-button">Eliminar</button>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import os
 import database as db
 import mysql.connector
@@ -7,6 +7,7 @@ import pandas as pd
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
+import base64
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = "tu_clave_secreta"
@@ -29,16 +30,16 @@ def login():
         cuenta = cursor.fetchone()
 
         if cuenta:
-            session['usuario'] = cuenta[1]  # Asumiendo que el nombre de usuario está en la segunda columna
-            if cuenta[1] == 'admin':  # Verifica si el usuario es 'admin'
-                return redirect(url_for('admin_home'))  # Redirige a la página de inicio del admin
+            session['usuario'] = cuenta[1] 
+            if cuenta[1] == 'admin':  
+                return redirect(url_for('admin_home'))  
             else:
-                return redirect(url_for('home'))  # Redirige a la página de inicio normal
+                return redirect(url_for('home'))  
         else:
             error = "Usuario o contraseña incorrectos"
             return render_template('login.html', error=error)
-
-    return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 @app.route('/logout')
 def logout():
@@ -73,14 +74,93 @@ def contact():
 
 @app.route('/propiedad')
 def propiedad():
+    usuario = session['usuario']
+    
+    with mysql.connector.connect(**config) as cnx:
+        with cnx.cursor() as cursor:
+            cursor.execute("SELECT * FROM propiedades WHERE usuario_insertor = %s", (usuario,))
+            propiedades = cursor.fetchall()
+    
+    propiedata = []
+    if propiedades:
+        for propiedad in propiedades:
+            task_dict = {
+                'analisis': propiedad[1],
+                'tipo_pro': propiedad[2],
+                'subtipo': propiedad[3],
+                'antiguedad': propiedad[4],
+                'area_terreno': propiedad[5],
+                'area_construida': propiedad[6],
+                'tipo_negocio': propiedad[7],
+                'imagen': base64.b64encode(propiedad[8]).decode('utf-8') if propiedad[8] else None,
+                'usuario_insertor': propiedad[9],
+            }
+            propiedata.append(task_dict)
+    else:
+        return """ 
+        <script>
+            alert("No tienes propiedades");
+            window.location.href = "/";  
+        </script>
+        """
+    
+    return render_template('propiedades.html', propiedad=propiedata)
+
+@app.route('/propiedade')
+def propiedade():
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor()
-    cursor.execute('SELECT * FROM propiedades')
+    cursor.execute("SELECT * FROM propiedades")
     propiedad = cursor.fetchall()
     cursor.close()
     cnx.close()
-    return render_template('propiedades.html', propiedad=propiedad)
+    propiedata = []
+    for propiedad in propiedad:
+        task_dict = {
+            'analisis': propiedad[1],
+            'tipo_pro': propiedad[2],
+            'subtipo': propiedad[3],
+            'antiguedad': propiedad[4],
+            'area_terreno': propiedad[5],
+            'area_construida': propiedad[6],
+            'tipo_negocio': propiedad[7],
+            'imagen': base64.b64encode(propiedad[8]).decode('utf-8') if propiedad[8] else None,
+            'usuario_insertor': propiedad[9],
+        }
+    propiedata.append(task_dict)
+    return render_template('propiedades.html', propiedad=propiedata)
 
+
+@app.route('/contratos')
+def contratos():
+    cnx = mysql.connector.connect(**config)
+    cursor = cnx.cursor()
+    cursor.execute('SELECT * FROM propiedades')
+    contratos = cursor.fetchall()
+    cursor.close()
+    cnx.close()
+    return render_template('contratos.html', contratos=contratos)
+
+@app.route('/agenda/crear', methods=['GET', 'POST'])
+def crearagenda():
+    if request.method == 'POST':
+        tarea = request.form['tarea']
+        fecha_ini = request.form['fecha_ini']
+        fecha_fin = request.form['fecha_fin']
+        descripcion = request.form['descripcion']
+
+        cnx = mysql.connector.connect(**config)
+        cursor = cnx.cursor()
+        insert_query = "INSERT INTO agenda SET tarea = %s, fecha_ini = %s, fecha_fin = %s, descripcion = %s"
+        cursor.execute(insert_query, (tarea, fecha_ini, fecha_fin, descripcion))
+        cnx.commit()
+        cnx.close()
+        return """ 
+        <script>
+            window.location.href = "/agenda";  
+        </script>
+        """
+    return render_template('creartarea.html') 
 
 @app.route('/agenda')
 def agenda():
@@ -92,15 +172,52 @@ def agenda():
     cnx.close()
     return render_template('agenda.html', agendas=agendas)
 
+@app.route('/eventos/crear', methods=['GET', 'POST'])
+def creareventos():
+    if request.method == 'POST':
+        evento = request.form['evento']
+        fecha_ini = request.form['fecha_ini']
+        fecha_fin = request.form['fecha_fin']
+        descripcion = request.form['descripcion']
+        imagen = request.files.get('imagen')
+        if imagen:
+            imagen_data = imagen.read()
+        else:
+            imagen_data = None
+
+        cnx = mysql.connector.connect(**config)
+        cursor = cnx.cursor()
+        insert_query = "INSERT INTO eventos SET evento = %s, fecha_ini = %s, fecha_fin = %s, descripcion = %s, imagen=%s"
+        cursor.execute(insert_query, (evento, fecha_ini, fecha_fin, descripcion, imagen_data))
+        cnx.commit()
+        cnx.close()
+        return """ 
+        <script>
+            window.location.href = "/eventos";  
+        </script>
+        """
+    return render_template('crearevento.html') 
+
 @app.route('/eventos')
 def eventos():
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor()
     cursor.execute('SELECT * FROM eventos')
-    eventos = cursor.fetchall()
+    task_data = cursor.fetchall()
     cursor.close()
     cnx.close()
-    return render_template('eventos.html', eventos=eventos)
+    formatted_data = []
+    for task in task_data:
+        task_dict = {
+            'evento': task[0],
+            'fecha_ini': task[1],
+            'fecha_fin': task[2],
+            'descripcion': task[3],
+            'imagen': base64.b64encode(task[4]).decode('utf-8') if task[4] else None
+        }
+    formatted_data.append(task_dict)
+
+    return render_template('eventos.html', eventos=formatted_data)
 
 
 @app.route('/podcast')
@@ -158,7 +275,7 @@ def crearasesores():
         cnx.close()
         return """ 
         <script>
-            window.location.href = "/propiedad/crear";  
+            window.location.href = "/homer";  
         </script>
         """
     return render_template('crearasesores.html') 
@@ -246,20 +363,22 @@ def eliminar_cliente(id):
 def crearpropiedades():
     if request.method == 'POST':
         usuario_insertor = session['usuario']
-        nombre = request.form['nombre']
-        genero = request.form['genero']
-        celular = request.form['celular']
-        documento = request.form['documento']
-        correo = request.form['correo']
-        departamento = request.form['departamento']
-        provincia = request.form['provincia']
-        distrito = request.form['distrito']
-        urbanizacion = request.form['email']
-        direccion = request.form['direccion']
+        analisis = request.form['analisis']
+        tipo_pro = request.form['tipo_pro']
+        subtipo = request.form['subtipo']
+        antiguedad = request.form['antiguedad']
+        area_terreno = request.form['area_terreno']
+        area_construida = request.form['area_construida']
+        tipo_negocio = request.form['tipo_negocio']
+        imagen = request.files.get('imagen')
+        if imagen:
+            imagen_data = imagen.read()
+        else:
+            imagen_data = None
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
-        insert_query = "INSERT INTO contactos SET nombre = %s, genero = %s, celular = %s, documento = %s, correo = %s,departamento = %s, provincia = %s, distrito = %s, urbanizacion = %s, direccion = %s, usuario_insertor = %s"
-        cursor.execute(insert_query, (nombre, genero, celular, documento, correo, departamento, provincia, distrito, urbanizacion, direccion, usuario_insertor))
+        insert_query = "INSERT INTO propiedades SET analisis = %s, tipo_pro = %s, subtipo = %s, antiguedad = %s, area_terreno = %s,area_construida = %s, tipo_negocio = %s,  imagen = %s, usuario_insertor = %s"
+        cursor.execute(insert_query, (analisis, tipo_pro, subtipo, antiguedad, area_terreno, area_construida, tipo_negocio, imagen_data, usuario_insertor))
         cnx.commit()
         cnx.close()
         return """ 

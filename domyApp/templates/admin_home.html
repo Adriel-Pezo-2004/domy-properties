@@ -48,13 +48,21 @@
         <i class="fi fi-br-book-alt"></i>
         <p>Biblioteca</p>
     </div>
-    <div class="grid-item2" onclick="redirect8()">
+    <div class="grid-item2" onclick="redirect11()">
         <i class="fi fi-br-calendar-star"></i>
         <p>Crear Eventos</p>
     </div>
-    <div class="grid-item2" onclick="redirect9()">
+    <div class="grid-item2" onclick="redirect12()">
+        <i class="fi fi-br-calendar-star"></i>
+        <p>Ver Eventos</p>
+    </div>
+    <div class="grid-item2" onclick="redirect13()">
         <i class="fi fi-br-calendar-days"></i>
-        <p>Agenda</p>
+        <p>Crear Tareas para Agenda</p>
+    </div>
+    <div class="grid-item2" onclick="redirect14()">
+        <i class="fi fi-br-calendar-days"></i>
+        <p>Ver Agenda</p>
     </div>
     <div class="grid-item2" onclick="redirect9()">
         <i class="fi fi-br-ranking-star"></i>
@@ -73,16 +81,28 @@
            window.location.href = "{{ url_for('crearclientes') }}";
        }
        function redirect6() {
-           window.location.href = "{{ url_for('eventos') }}";
+           window.location.href = "{{ url_for('contact') }}";
        }
        function redirect7() {
            window.location.href = "{{ url_for('podcasts') }}";
        }
        function redirect8() {
-           window.location.href = "{{ url_for('biblioteca') }}";
+           window.location.href = "{{ url_for('propiedade') }}";
        }
        function redirect9() {
            window.location.href = "{{ url_for('propiedades') }}";
+       }
+       function redirect11() {
+           window.location.href = "{{ url_for('creareventos') }}";
+       }
+       function redirect12() {
+           window.location.href = "{{ url_for('eventos') }}";
+       }
+       function redirect13() {
+           window.location.href = "{{ url_for('crearagenda') }}";
+       }
+       function redirect14() {
+           window.location.href = "{{ url_for('agenda') }}";
        }
 </script>
 {% endblock %}

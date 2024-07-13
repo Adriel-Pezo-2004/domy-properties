@@ -1,0 +1,29 @@
+{% extends 'index2.html' %}
+{% block content %}
+<div class="main1">
+    <div id="ext2">
+        <h2>Crear Tarea</h2>
+        <div>
+            <form method="post">
+                <label for="tarea">Nombre de la Tarea:</label>
+                <input type="text" id="tarea" name="tarea" maxlength="100" required>
+            
+                <label for="fecha_ini">Fecha de Inicio:</label>
+                <input type="date" id="fecha_ini" name="fecha_ini" required>
+            
+                <label for="fecha_fin">Fecha de Fin:</label>
+                <input type="date" id="fecha_fin" name="fecha_fin" required>
+            
+                <label for="descripcion">Descripción:</label>
+                <input type="text" id="descripcion" name="descripcion" maxlength="500" required>
+            
+                <button id="btn" type="submit">Guardar Tarea</button>
+            </form>
+            
+        </div>
+    </div>
+    <br>
+</main>
+<script>
+</script>
+{% endblock %}

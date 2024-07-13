@@ -14,7 +14,7 @@
         <i class="fi fi-br-home"></i>
         <p>Mis Propiedades</p>
     </div>
-    <div class="grid-item">
+    <div class="grid-item" onclick="redirect4()">
         <i class="fi fi-br-document"></i>
         <p>Ver Contratos</p>
     </div>
@@ -48,6 +48,9 @@
         }
         function redirect3() {
             window.location.href = "{{ url_for('propiedad') }}";
+        }
+        function redirect4() {
+            window.location.href = "{{ url_for('contratos') }}";
         }
         function redirect5() {
             window.location.href = "{{ url_for('agenda') }}";
