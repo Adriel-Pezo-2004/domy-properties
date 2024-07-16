@@ -38,13 +38,13 @@
         }
     </style>
 
-    {% for propiedad in propiedad %}
+    {% for propieda in propiedad %}
         <div class="propiedad-container">
             <div class="propiedad-info">
-                <h2>{{ propiedad.analisis }}</h2>
-                <p>{{ propiedad.tipo_pro }}</p>
-                {% if propiedad.imagen %}
-                    <img class="propiedad-image" src="data:image/jpeg;base64,{{ propiedad.imagen }}" alt="Imagen de propiedad">
+                <h2>{{ propieda.analisis }}</h2>
+                <p>{{ propieda.tipo_pro }}</p>
+                {% if propieda.imagen %}
+                    <img class="propiedad-image" src="data:image/jpeg;base64,{{ propieda.imagen }}" alt="Imagen de propiedad">
                 {% else %}
                     <p>No hay imagen disponible</p>
                 {% endif %}

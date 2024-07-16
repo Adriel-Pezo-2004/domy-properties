@@ -4,19 +4,63 @@
     <div id="ext2">
         <h2>Crear Asesor</h2>
         <div>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <label for="nombres">Nombres:</label>
                 <input type="text" id="nombres" name="nombres" value="" maxlength="100" required>
 
                 <label for="apellidos">Apellidos:</label>
                 <input type="text" id="apellidos" name="apellidos" value="" maxlength="100" required>
 
-                <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="usuario" value="" maxlength="50" required>
+                <label for="tipodoc">Tipo de Documento:</label>
+                <select id="tipodoc" name="documento" required>
+                    <option value="dni">DNI</option>
+                </select>
+
+                <label for="numero_documento">Tipo de Documento:</label>
+                <input type="text" id="numero_documento" name="numero_documento" value="" required>
+
+
+                <label for="ruc">RUC:</label>
+                <input type="text" id="ruc" name="ruc" value="" required>
+
+                <label for="genero">Género:</label>
+                <select class="form-select form-select-lg" size="1" id="genero" name="genero" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                </select>
+
+                <label for="sesion">Sesión:</label>
+                <select class="form-select form-select-lg" size="1" id="sesion" name="sesion" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="M">Sin Sesiones</option>
+                </select>
+                
+                <label for="imagen">Imagen:</label>
+                <input type="file" id="imagen" name="imagen" accept="image/*">
+
+                <label for="celular">Celular:</label>
+                <input type="number" id="celular" name="celular" value="" maxlength="9" required>
 
                 <label for="contraseña">Contraseña:</label>
-                <input type="text" id="contraseña" name="contraseña" value="" maxlength="255" required>
+                <input type="password" id="contraseña" name="contraseña" value="" required>
+
+                <label for="departamento">Departamento:</label>
+                <select id="departamento" name="departamento">
+                    <option value="">Selecciona un departamento</option>
+                    <option value="Arequipa">Arequipa</option>
+                </select>
                 
+                <label for="provincia">Provincia:</label>
+                <select id="provincia" name="provincia">
+                    <option value="">Selecciona una provincia</option>
+                </select>
+                
+                <label for="distrito">Distrito:</label>
+                <select id="distrito" name="distrito" disabled>
+                    <option value="">Selecciona un distrito</option>
+                </select>
+
                 <button id="btn" type="submit">Guardar Asesor</button>
             </form>
         </div>
@@ -24,5 +68,56 @@
     <br>
 </main>
 <script>
+    function toggleDiv() {
+            var div = document.getElementById('collapsibleDiv');
+            div.classList.toggle('expanded');
+    }
+    const data = {
+            "Arequipa": {
+                "provincias": {
+                    "Arequipa": ["Alto Selva Alegre", "Arequipa", "Cayma", "Cerro Colorado", "Characato", "Chiguata", "Jacobo Hunter", "La Joya", "Mariano Melgar", "Miraflores", "Mollebaya", "Paucarpata", "Pocsi", "Polobaya", "Quequeña", "Sabandia", "Sachaca", "San Juan de Siguas", "San Juan de Tarucani", "Santa Isabel de Siguas", "Santa Rita de Siguas", "Socabaya", "Tiabaya", "Uchumayo", "Vitor", "Yanahuara", "Yarabamba", "Yura"],
+                    "Camana": ["Camaná", "José María Quimper", "Mariano Nicolás Valcárcel", "Mariscal Cáceres", "Nicolás de Piérola", "Ocoña", "Quilca", "Samuel Pastor"],
+                    "Caraveli": ["Acarí", "Atico", "Atiquipa", "Bella Unión", "Cahuacho", "Caravelí", "Chala", "Chaparra", "Huanuhuanu", "Jaqui", "Lomas", "Quicacha", "Yauca"],
+                    "Castilla": ["Andagua", "Aplao", "Ayo", "Chachas", "Chilcaymarca", "Choco", "Huancarqui", "Machaguay", "Orcopampa", "Pampacolca", "Tipan", "Uñón", "Uraca", "Viraco"],
+                    "Caylloma": ["Achoma", "Cabanaconde", "Callalli", "Caylloma", "Chivay", "Coporaque", "Huambo", "Huanca", "Ichupampa", "Lari", "Lluta", "Maca", "Madrigal", "Majes", "San Antonio de Chuca", "Sibayo", "Tapay", "Tisco", "Tuti", "Yanque"],
+                    "Condesuyos": ["Andaray", "Cayarani", "Chichas", "Chuquibamba", "Iray", "Río Grande", "Salamanca", "Yanaquihua"],
+                    "Islay": ["Cocachacra", "Dean Valdivia", "Islay", "Mejia", "Mollendo", "Punta de Bombón"],
+                    "La Union": ["Alca", "Charcana", "Cotahuasi", "Huaynacotas", "Pampamarca", "Puyca", "Quechualla", "Sayla", "Tauria", "Tomepampa", "Toro"]
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinciaSelect = document.getElementById('provincia');
+            const distritoSelect = document.getElementById('distrito');
+
+            // Populate the province select
+            const provincias = Object.keys(data.Arequipa.provincias);
+            provincias.forEach(provincia => {
+                const option = document.createElement('option');
+                option.value = provincia;
+                option.textContent = provincia;
+                provinciaSelect.appendChild(option);
+            });
+
+            provinciaSelect.addEventListener('change', function() {
+                // Clear the district select
+                distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+                
+                if (provinciaSelect.value === "") {
+                    distritoSelect.disabled = true;
+                } else {
+                    // Populate the district select based on the selected province
+                    const distritos = data.Arequipa.provincias[provinciaSelect.value];
+                    distritos.forEach(distrito => {
+                        const option = document.createElement('option');
+                        option.value = distrito;
+                        option.textContent = distrito;
+                        distritoSelect.appendChild(option);
+                    });
+                    distritoSelect.disabled = false;
+                }
+            });
+        });
 </script>
 {% endblock %}

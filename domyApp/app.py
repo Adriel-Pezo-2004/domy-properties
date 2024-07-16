@@ -75,25 +75,30 @@ def contact():
 @app.route('/propiedad')
 def propiedad():
     usuario = session['usuario']
-    
-    with mysql.connector.connect(**config) as cnx:
-        with cnx.cursor() as cursor:
-            cursor.execute("SELECT * FROM propiedades WHERE usuario_insertor = %s", (usuario,))
-            propiedades = cursor.fetchall()
+    if usuario == 'admin':  
+        with mysql.connector.connect(**config) as cnx:
+            with cnx.cursor() as cursor:
+                cursor.execute("SELECT * FROM propiedades")
+                propiedades = cursor.fetchall() 
+    else:
+        with mysql.connector.connect(**config) as cnx:
+            with cnx.cursor() as cursor:
+                cursor.execute("SELECT * FROM propiedades WHERE usuario_insertor = %s", (usuario,))
+                propiedades = cursor.fetchall()
     
     propiedata = []
     if propiedades:
         for propiedad in propiedades:
             task_dict = {
-                'analisis': propiedad[1],
-                'tipo_pro': propiedad[2],
-                'subtipo': propiedad[3],
-                'antiguedad': propiedad[4],
-                'area_terreno': propiedad[5],
-                'area_construida': propiedad[6],
-                'tipo_negocio': propiedad[7],
-                'imagen': base64.b64encode(propiedad[8]).decode('utf-8') if propiedad[8] else None,
-                'usuario_insertor': propiedad[9],
+                'analisis': propiedad[2],
+                'tipo_pro': propiedad[3],
+                'subtipo': propiedad[4],
+                'antiguedad': propiedad[5],
+                'area_terreno': propiedad[6],
+                'area_construida': propiedad[7],
+                'tipo_negocio': propiedad[8],
+                'imagen': base64.b64encode(propiedad[9]).decode('utf-8') if propiedad[9] else None,
+                'usuario_insertor': propiedad[10],
             }
             propiedata.append(task_dict)
     else:
@@ -106,39 +111,21 @@ def propiedad():
     
     return render_template('propiedades.html', propiedad=propiedata)
 
-@app.route('/propiedade')
-def propiedade():
-    cnx = mysql.connector.connect(**config)
-    cursor = cnx.cursor()
-    cursor.execute("SELECT * FROM propiedades")
-    propiedad = cursor.fetchall()
-    cursor.close()
-    cnx.close()
-    propiedata = []
-    for propiedad in propiedad:
-        task_dict = {
-            'analisis': propiedad[1],
-            'tipo_pro': propiedad[2],
-            'subtipo': propiedad[3],
-            'antiguedad': propiedad[4],
-            'area_terreno': propiedad[5],
-            'area_construida': propiedad[6],
-            'tipo_negocio': propiedad[7],
-            'imagen': base64.b64encode(propiedad[8]).decode('utf-8') if propiedad[8] else None,
-            'usuario_insertor': propiedad[9],
-        }
-    propiedata.append(task_dict)
-    return render_template('propiedades.html', propiedad=propiedata)
-
 
 @app.route('/contratos')
 def contratos():
-    cnx = mysql.connector.connect(**config)
-    cursor = cnx.cursor()
-    cursor.execute('SELECT * FROM propiedades')
-    contratos = cursor.fetchall()
-    cursor.close()
-    cnx.close()
+    usuario = session['usuario']
+    if usuario == 'admin':  
+        with mysql.connector.connect(**config) as cnx:
+            with cnx.cursor() as cursor:
+                cursor.execute("SELECT * FROM contrato")
+                contratos = cursor.fetchall() 
+    else:
+        with mysql.connector.connect(**config) as cnx:
+            with cnx.cursor() as cursor:
+                cursor.execute("SELECT * FROM contrato WHERE usuario_insertor = %s", (usuario,))
+                contratos = cursor.fetchall()
+                
     return render_template('contratos.html', contratos=contratos)
 
 @app.route('/agenda/crear', methods=['GET', 'POST'])
@@ -255,8 +242,28 @@ def asesores():
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor()
     cursor.execute('SELECT * FROM usuarios')
-    asesores = cursor.fetchall()
+    asesore = cursor.fetchall()
     cursor.close()
+    asesores = []
+    for asesor in asesore:
+        asesor_dict = {
+            'user_id': asesor[0],
+            'usuario': asesor[1],
+            'contraseña': asesor[2],
+            'nombres': asesor[3],
+            'apellidos': asesor[4],
+            'tipo_documento': asesor[5],
+            'numero_documento': asesor[6],
+            'ruc': asesor[7],
+            'genero': asesor[8],
+            'sesion': asesor[9],
+            'imagen': base64.b64encode(asesor[10]).decode('utf-8') if asesor[10] else None,
+            'celular': asesor[11],
+            'departamento': asesor[12],
+            'provincia': asesor[13],
+            'distrito': asesor[14]
+        }
+    asesores.append(asesor_dict)
     cnx.close()
     return render_template('asesores.html', asesores=asesores)
 
@@ -288,6 +295,7 @@ def crearclientes():
         genero = request.form['genero']
         celular = request.form['celular']
         documento = request.form['documento']
+        nrodocumento = request.form['nrodocumento']
         correo = request.form['correo']
         departamento = request.form['departamento']
         provincia = request.form['provincia']
@@ -296,9 +304,10 @@ def crearclientes():
         direccion = request.form['direccion']
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
-        insert_query = "INSERT INTO contacto SET nombre = %s, genero = %s, celular = %s, documento = %s, correo = %s,departamento = %s, provincia = %s, distrito = %s, urbanizacion = %s, direccion = %s, usuario_insertor = %s"
-        cursor.execute(insert_query, (nombre, genero, celular, documento, correo, departamento, provincia, distrito, urbanizacion, direccion, usuario_insertor))
+        insert_query = "INSERT INTO contacto SET nombre = %s, genero = %s, celular = %s, documento = %s, nrodocumento = %s, correo = %s,departamento = %s, provincia = %s, distrito = %s, urbanizacion = %s, direccion = %s, usuario_insertor = %s"
+        cursor.execute(insert_query, (nombre, genero, celular, documento, nrodocumento, correo, departamento, provincia, distrito, urbanizacion, direccion, usuario_insertor))
         cnx.commit()
+        session['id_contacto'] = cursor.lastrowid
         cnx.close()
         return """ 
         <script>
@@ -362,6 +371,7 @@ def eliminar_cliente(id):
 @app.route('/propiedad/crear', methods=['GET', 'POST'])
 def crearpropiedades():
     if request.method == 'POST':
+        id_contacto = session.get('id_contacto')
         usuario_insertor = session['usuario']
         analisis = request.form['analisis']
         tipo_pro = request.form['tipo_pro']
@@ -377,9 +387,10 @@ def crearpropiedades():
             imagen_data = None
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
-        insert_query = "INSERT INTO propiedades SET analisis = %s, tipo_pro = %s, subtipo = %s, antiguedad = %s, area_terreno = %s,area_construida = %s, tipo_negocio = %s,  imagen = %s, usuario_insertor = %s"
-        cursor.execute(insert_query, (analisis, tipo_pro, subtipo, antiguedad, area_terreno, area_construida, tipo_negocio, imagen_data, usuario_insertor))
+        insert_query = "INSERT INTO propiedades SET id_contacto = %s, analisis = %s, tipo_pro = %s, subtipo = %s, antiguedad = %s, area_terreno = %s,area_construida = %s, tipo_negocio = %s,  imagen = %s, usuario_insertor = %s"
+        cursor.execute(insert_query, (id_contacto, analisis, tipo_pro, subtipo, antiguedad, area_terreno, area_construida, tipo_negocio, imagen_data, usuario_insertor))
         cnx.commit()
+        session['id_propiedad'] = cursor.lastrowid
         cnx.close()
         return """ 
         <script>
@@ -391,6 +402,7 @@ def crearpropiedades():
 @app.route('/contrato/crear', methods=['GET', 'POST'])
 def crearcontratos():
     if request.method == 'POST':
+        id_propiedad = session.get('id_propiedad')
         usuario_insertor = session['usuario']
         departamento = request.form['departamento']
         provincia = request.form['provincia']
@@ -398,8 +410,8 @@ def crearcontratos():
         direccion = request.form['direccion']
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
-        insert_query = "INSERT INTO contactos SET departamento = %s, provincia = %s, distrito = %s, direccion = %s, usuario_insertor= %s"
-        cursor.execute(insert_query, (departamento, provincia, distrito, direccion, usuario_insertor))
+        insert_query = "INSERT INTO contrato SET id_propiedad = %s, departamento = %s, provincia = %s, distrito = %s, direccion = %s, usuario_insertor= %s"
+        cursor.execute(insert_query, (id_propiedad, departamento, provincia, distrito, direccion, usuario_insertor))
         cnx.commit()
         cnx.close()
         return """ 

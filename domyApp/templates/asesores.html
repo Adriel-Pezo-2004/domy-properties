@@ -18,16 +18,28 @@
     <div class="col-md-12 mt-3">
         <ul id="lista-contratos" class="list-group">
             {% for asesor in asesores %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span>
-                    {{ asesor[3] }} - {{ asesor[4] }} - {{ asesor[1] }} - {{ asesor[2] }}
-                </span>
-                <span>
-                    <a href="{{ url_for('editarclientes', id=asesor[0]) }}" class="btn btn-primary btn-sm">Editar</a>
-                    <form action="{{ url_for('eliminar_cliente', id=asesor[0]) }}" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este cliente?')">
-                        <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
-                    </form>
-                </span>
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h5>{{ asesor.nombres }} {{ asesor.apellidos }}</h5>
+                        {% if asesor.imagen %}
+                            <img class="propiedad-image" src="data:image/jpeg;base64,{{ asesor.imagen }}" alt="Imagen del asesor">
+                        {% else %}
+                            <p>No hay imagen disponible</p>
+                        {% endif %}
+                        <p class="mb-1"><strong>Usuario:</strong> {{ asesor.usuario }}</p>
+                        <p class="mb-1"><strong>Documento:</strong> {{ asesor.tipo_documento }} - {{ asesor.numero_documento }}</p>
+                        <p class="mb-1"><strong>RUC:</strong> {{ asesor.ruc }}</p>
+                        <p class="mb-1"><strong>Género:</strong> {{ 'Masculino' if asesor.genero == 'M' else 'Femenino' }}</p>
+                    </div>
+                    <div class="col-md-4">
+                       
+                        <p class="mb-1"><strong>Ubicación:</strong> {{ asesor.departamento }}, {{ asesor.provincia }}, {{ asesor.distrito }}</p>
+                    </div>
+                    <div class="col-md-2 text-end">
+                        
+                    </div>
+                </div>
             </li>
             {% endfor %}
         </ul>

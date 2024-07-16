@@ -211,8 +211,9 @@ body {
     flex-direction: column; // Organiza los elementos en columna
     height: 25%;
     form {
+      padding: 0.75rem;
       display: grid;
-      grid-template-columns: repeat(2, 12.5% 35% );
+      grid-template-columns: repeat(3, 6% 25%);
       gap: 1rem;
       
       label {
@@ -253,6 +254,20 @@ body {
     outline: none;
   }
 
+  .propiedad-image {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%; /* Esto hará que la imagen sea circular, si lo deseas */
+}
+
+.asesor-imagen-placeholder {
+    width: 90px;
+    height: 90px;
+    background-color: #ccc; /* Color de fondo para cuando no hay imagen */
+    border-radius: 50%;
+}
+
   #ext2 #btn {
     font-size: 1rem;
     justify-content: center;
@@ -292,4 +307,84 @@ body {
   .list-group-item span {
       display: flex;
       flex-direction: column;
+  }
+
+    .search-bar {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .search-bar input {
+        width: 80%;
+        padding: 10px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+    .events-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 10px;
+    }
+    .event-card {
+        display: flex;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .event-image, .event-image-placeholder {
+        width: 250px;
+        height: 100%;
+        background-color: #f0f0f0;
+    }
+    .event-info {
+        padding: 10px;
+        flex-grow: 1;
+    }
+    .event-info h2 {
+        margin: 0;
+        font-size: 18px;
+    }
+    .event-info p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #666;
+    }
+    .ver-mas-btn {
+        background-color: #e6f3ff;
+        color: #007bff;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        float: right;
+        font-size: 14px;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: white;
+  }
+  .order-select, .search-bar input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+  }
+  .search-btn {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 0 4px 4px 0;
+      padding: 8px;
+  }
+  .contracts-container {
+      padding: 10px;
+  }
+  .contract-card {
+      background-color: white;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }

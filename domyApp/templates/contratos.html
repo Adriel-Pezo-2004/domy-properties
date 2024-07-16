@@ -1,15 +1,23 @@
 {% extends 'index2.html' %}
 {% block content %}
-    {% for evento in eventos %}
-        <div>
-            <h2>{{ evento.evento }}</h2>
-            <p>Fecha de Inicio: {{ evento.fecha_ini }}</p>
-            <p>Fecha de Fin: {{ evento.fecha_fin }}</p>
-            {% if evento.imagen %}
-                <img src="data:image/jpeg;base64,{{ evento.imagen }}">
-            {% else %}
-                <p>No hay imagen disponible</p>
-            {% endif %}
+<div class="search-container">
+    <select class="order-select">
+        <option>Ordenar de A-Z</option>
+    </select>
+    <div class="search-bar">
+        <input type="text" placeholder="Buscar...">
+        <button class="search-btn">🔍</button>
+    </div>
+</div>
+
+<div class="contracts-container">
+    {% for contrato in contratos %}
+        <div class="contract-card">
+            <p><strong>Departamento:</strong> {{ contrato[2] }}</p>
+            <p><strong>Provincia:</strong> {{ contrato[3] }}</p>
+            <p><strong>Distrito:</strong> {{ contrato[4] }}</p>
+            <p><strong>Dirección:</strong> {{ contrato[5] }}</p>
         </div>
     {% endfor %}
+</div>
 {% endblock %}

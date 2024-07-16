@@ -1,15 +1,22 @@
 {% extends 'index2.html' %}
 {% block content %}
+<div class="search-bar">
+    <input type="text" placeholder="&#128269;">
+</div>
+<div class="events-container">
     {% for evento in eventos %}
-        <div>
-            <h2>{{ evento.evento }}</h2>
-            <p>Fecha de Inicio: {{ evento.fecha_ini }}</p>
-            <p>Fecha de Fin: {{ evento.fecha_fin }}</p>
+        <div class="event-card">
             {% if evento.imagen %}
-                <img src="data:image/jpeg;base64,{{ evento.imagen }}">
+                <img src="data:image/jpeg;base64,{{ evento.imagen }}" class="event-image">
             {% else %}
-                <p>No hay imagen disponible</p>
+                <div class="event-image-placeholder"></div>
             {% endif %}
+            <div class="event-info">
+                <h2>{{ evento.evento }}</h2>
+                <p>{{ evento.fecha_ini }} - {{ evento.fecha_fin }}</p>
+                <button class="ver-mas-btn">Ver más</button>
+            </div>
         </div>
     {% endfor %}
+</div>
 {% endblock %}
