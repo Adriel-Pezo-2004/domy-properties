@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import os
+import io
 import database as db
 import mysql.connector
 from datetime import datetime
 import pandas as pd
+import matplotlib.pyplot as plt
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
@@ -75,16 +77,27 @@ def contact():
 @app.route('/propiedad')
 def propiedad():
     usuario = session['usuario']
+    cnx = mysql.connector.connect(**config)
+    cursor = cnx.cursor()
     if usuario == 'admin':  
-        with mysql.connector.connect(**config) as cnx:
-            with cnx.cursor() as cursor:
-                cursor.execute("SELECT * FROM propiedades")
-                propiedades = cursor.fetchall() 
+        query = """
+        SELECT p.*, c.departamento, c.provincia, c.distrito, c.direccion
+        FROM propiedades p
+        INNER JOIN contrato c ON p.id_propiedad = c.id_propiedad
+        """
+        cursor.execute(query)
     else:
-        with mysql.connector.connect(**config) as cnx:
-            with cnx.cursor() as cursor:
-                cursor.execute("SELECT * FROM propiedades WHERE usuario_insertor = %s", (usuario,))
-                propiedades = cursor.fetchall()
+        query = """
+        SELECT p.*, c.departamento, c.provincia, c.distrito, c.direccion
+        FROM propiedades p
+        INNER JOIN contrato c ON p.id_propiedad = c.id_propiedad
+        WHERE p.usuario_insertor = %s
+        """
+        cursor.execute(query, (usuario,))
+    
+    propiedades = cursor.fetchall()
+    cursor.close()
+    cnx.close()
     
     propiedata = []
     if propiedades:
@@ -99,6 +112,10 @@ def propiedad():
                 'tipo_negocio': propiedad[8],
                 'imagen': base64.b64encode(propiedad[9]).decode('utf-8') if propiedad[9] else None,
                 'usuario_insertor': propiedad[10],
+                'departamento': propiedad[11],
+                'provincia': propiedad[12],
+                'distrito': propiedad[13],
+                'direccion': propiedad[14],
             }
             propiedata.append(task_dict)
     else:
@@ -226,16 +243,6 @@ def biblioteca():
     cursor.close()
     cnx.close()
     return render_template('biblioteca.html', biblioteca=biblioteca)
-
-@app.route('/propiedades')
-def propiedades():
-    cnx = mysql.connector.connect(**config)
-    cursor = cnx.cursor()
-    cursor.execute('SELECT * FROM propiedades')
-    propiedades = cursor.fetchall()
-    cursor.close()
-    cnx.close()
-    return render_template('propiedad.html', propiedades=propiedades)
 
 @app.route('/asesores')
 def asesores():
@@ -381,14 +388,15 @@ def crearpropiedades():
         area_construida = request.form['area_construida']
         tipo_negocio = request.form['tipo_negocio']
         imagen = request.files.get('imagen')
+        precio = request.form['precio']
         if imagen:
             imagen_data = imagen.read()
         else:
             imagen_data = None
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
-        insert_query = "INSERT INTO propiedades SET id_contacto = %s, analisis = %s, tipo_pro = %s, subtipo = %s, antiguedad = %s, area_terreno = %s,area_construida = %s, tipo_negocio = %s,  imagen = %s, usuario_insertor = %s"
-        cursor.execute(insert_query, (id_contacto, analisis, tipo_pro, subtipo, antiguedad, area_terreno, area_construida, tipo_negocio, imagen_data, usuario_insertor))
+        insert_query = "INSERT INTO propiedades SET id_contacto = %s, analisis = %s, tipo_pro = %s, subtipo = %s, antiguedad = %s, area_terreno = %s,area_construida = %s, tipo_negocio = %s,  imagen = %s, precio = %s, usuario_insertor = %s"
+        cursor.execute(insert_query, (id_contacto, analisis, tipo_pro, subtipo, antiguedad, area_terreno, area_construida, tipo_negocio, imagen_data, precio,usuario_insertor))
         cnx.commit()
         session['id_propiedad'] = cursor.lastrowid
         cnx.close()
@@ -420,6 +428,80 @@ def crearcontratos():
         </script>
         """
     return render_template('crearcontrato.html') 
+
+@app.route('/captaciones/')
+def captaciones():
+    cnx = mysql.connector.connect(**config)
+    cursor = cnx.cursor(dictionary=True)
+    insert_query = """
+    SELECT usuario_insertor, COUNT(*) as cantidad
+    FROM propiedades
+    GROUP BY usuario_insertor
+    """
+    cursor.execute(insert_query)
+    resumen_usuarios = cursor.fetchall()
+    cursor.close()
+    cnx.close()
+
+    # Gráfica Circular
+    labels = [user['usuario_insertor'] for user in resumen_usuarios]
+    sizes = [user['cantidad'] for user in resumen_usuarios]
+
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+    ax.axis('equal')
+
+    # Convertir la gráfica a una imagen en base64
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    plot_url = base64.b64encode(img.getvalue()).decode()
+    
+    return render_template('captaciones.html', resumen_usuarios=resumen_usuarios, plot_url=plot_url)
+
+@app.route('/buscar', methods=['GET', 'POST'])
+def buscar():
+    cnx = mysql.connector.connect(**config)
+    cursor = cnx.cursor(dictionary=True)
+
+    query = """
+        SELECT p.*, c.departamento, c.provincia, c.distrito, c.direccion
+        FROM propiedades p
+        INNER JOIN contrato c ON p.id_propiedad = c.id_propiedad WHERE 1=1 
+        """
+    params = []
+    
+    if request.method == 'POST':
+        precio_min = request.form.get('precio_min')
+        precio_max = request.form.get('precio_max')
+        tipo_negocio = request.form.get('tipo_negocio')
+        
+        if precio_min:
+            query += " AND area_terreno >= %s"
+            params.append(precio_min)
+        
+        if precio_max:
+            query += " AND area_terreno <= %s"
+            params.append(precio_max)
+
+        if tipo_negocio:
+            query += " AND tipo_negocio = %s"
+            params.append(tipo_negocio)
+    
+    cursor.execute(query, params)
+    propiedades = cursor.fetchall()
+    cursor.close()
+    cnx.close()
+    
+    for propiedad in propiedades:
+        if propiedad['imagen']:  # Asumiendo que 'imagen' es el nombre del campo LONGBLOB
+            propiedad['imagen_base64'] = base64.b64encode(propiedad['imagen']).decode('utf-8')
+        else:
+            propiedad['imagen_base64'] = None
+
+    return render_template('buscar.html', propiedades=propiedades)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)

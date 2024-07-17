@@ -384,4 +384,73 @@ main {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.capta-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 200px);
+  gap: 10px;
+  width: 70%;
+  max-width: 800px;
+}
+
+.capta-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.bodi {
+  background-color: rgba(255, 255, 255, 0.9490196078);
+  border-radius: 10px;
+  margin: 2rem;
+  padding: 2rem;
+}
+
+.bodi2 {
+  flex-direction: column;
+}
+
+.capta-item {
+  border: 2px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.styled-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 1rem;
+  min-width: 300px;
+  box-shadow: 0 0 2px #CE6B37;
+}
+
+.styled-table thead tr {
+  background-color: #CE6B37;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 5px 5px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #ddd;
+}
+
 /*# sourceMappingURL=main.css.map */

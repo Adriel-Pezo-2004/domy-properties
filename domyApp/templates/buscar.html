@@ -1,0 +1,166 @@
+{% extends 'index2.html' %}
+{% block content %}
+<style>
+    /* Estilos existentes... */
+    
+    .search-container {
+        background-color: #f8f8f8;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    
+    .search-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    
+    .search-item {
+        flex: 1;
+        margin-right: 10px;
+    }
+    
+    .search-item:last-child {
+        margin-right: 0;
+    }
+    
+    select, input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    
+    button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+    .property-list {
+        display: grid;
+        grid-gap: 20px;
+        padding: 20px;
+        background-color: #f8f8f8;
+    }
+
+    .property-item {
+        display: flex;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .property-image {
+        width: 150px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .property-info {
+        padding: 15px;
+        flex-grow: 1;
+    }
+
+    .property-title {
+        font-weight: bold;
+        margin: 0 0 5px 0;
+    }
+
+    .property-location {
+        color: #666;
+        font-size: 0.9em;
+        margin: 0;
+    }
+
+    .view-more {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        align-self: center;
+        margin-right: 15px;
+    }
+
+    .view-more:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<div class="search-container">
+    <form method="post">
+        <div class="search-row">
+            <div class="search-item">
+                <select class="form-select" id="tipo_negocio" name="tipo_negocio" required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option value="Alquiler">Alquiler</option>
+                    <option value="Venta">Venta</option>
+                    <option value="Anticresis">Anticresis</option>
+                    <option value="Traspaso">Traspaso</option>
+                </select>
+            </div>
+            <div class="search-item">
+                <input type="text" name="ubicacion" placeholder="Ingrese ubicación">
+            </div>
+        </div>
+        <div class="search-row">
+            <div class="search-item">
+                <select name="precio_min" id="precio_min">
+                    <option value="" disabled selected>Desde</option>
+                    <option value="50000">$50000</option>
+                    <option value="60000">$60000</option>
+                    <option value="70000">$70000</option>
+                    <option value="80000">$80000</option>
+                    <option value="90000">$90000</option>
+                    <option value="100000">$100000</option>
+                </select>
+            </div>
+            <div class="search-item">
+                <select name="precio_max" id="precio_max">
+                    <option value="" disabled selected>Hasta</option>
+                    <option value="200000">$200000</option>
+                    <option value="250000">$250000</option>
+                    <option value="300000">$300000</option>
+                    <option value="350000">$350000</option>
+                    <option value="400000">$400000</option>
+                    <option value="450000">$450000</option>
+                </select>
+            </div>
+            <div class="search-item">
+                <input type="text" name="dormitorios" placeholder="Dormitorio">
+            </div>
+            <div class="search-item">
+                <button type="submit">🔍</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Resto del contenido... -->
+<div class="property-list">
+    {% for propiedad in propiedades %}
+<div class="property-item">
+    {% if propiedad.imagen_base64 %}
+        <img src="data:image/jpeg;base64,{{ propiedad.imagen_base64 }}" alt="{{ propiedad.analisis }}" class="property-image">
+    {% else %}
+        <img src="ruta_a_imagen_por_defecto.jpg" alt="{{ propiedad.analisis }}" class="property-image">
+    {% endif %}
+    <div class="property-info">
+        <h6 class="property-title">{{ propiedad.analisis }}</h6>
+        <p class="property-location">{{ propiedad.provincia }} - {{ propiedad.distrito }} </p>
+    </div>
+    <button class="view-more">Ver más</button>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

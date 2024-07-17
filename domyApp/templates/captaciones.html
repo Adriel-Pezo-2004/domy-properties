@@ -1,0 +1,33 @@
+{% extends 'index2.html' %}
+{% block content %}  
+<div class="capta-body">
+    <div class="bodi">
+        <h2>Propiedades Registradas por Usuario</h2>
+        <div class="bodi2">
+            <div class="capta-item">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Asesor</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in resumen_usuarios %}
+                                <tr>
+                                    <td>{{ user.usuario_insertor }}</td>
+                                    <td>{{ user.cantidad }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="capta-item">
+                        <img src="data:image/png;base64,{{ plot_url }}" alt="Gráfica Circular" style="width: 500px;">
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

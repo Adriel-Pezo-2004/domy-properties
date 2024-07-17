@@ -42,7 +42,7 @@
         <div class="propiedad-container">
             <div class="propiedad-info">
                 <h2>{{ propieda.analisis }}</h2>
-                <p>{{ propieda.tipo_pro }}</p>
+                <p>{{ propieda.provincia }} - {{ propieda.distrito }} </p>
                 {% if propieda.imagen %}
                     <img class="propiedad-image" src="data:image/jpeg;base64,{{ propieda.imagen }}" alt="Imagen de propiedad">
                 {% else %}
